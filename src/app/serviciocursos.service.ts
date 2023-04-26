@@ -23,7 +23,15 @@ export class ServiciocursosService {
       this.micurso[dato] = nuevafactura;
     }
   }
+  getcursobyid(ids: number) {
+    return this.micurso.find((curso) => curso.id == ids);
+  }
   getcurso(): listacurso[] {
     return this.micurso;
+  }
+  encontrarCurso(index: number) {
+    let curso: listacurso = this.micurso[index - 1];
+
+    return curso;
   }
 }

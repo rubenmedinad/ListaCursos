@@ -26,11 +26,14 @@ export class ModifcacionesComponent {
     this.cursos = this.serviciocursos.getcurso();
   }
 
-  ngOnInit(): void {
-    this.ids = this.activarrutas.snapshot.params['id'];
+  ngOnInit() {
+    this.activarrutas.queryParams.subscribe(data => {
+      this.ids = data['ids'];
+      if(this.ids != 0)
+      this.curso = this.serviciocursos.getcursobyid(this.ids)!;
+  })
   }
-
-  modificar() {
+  modificar(): void {
     this.serviciocursos.modificarcurso(this.ids, this.curso);
     this.curso = new listacurso(0, '', 0, nivel.alto);
     this.rutes.navigate(['']);
