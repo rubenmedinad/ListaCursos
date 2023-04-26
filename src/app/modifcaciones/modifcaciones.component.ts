@@ -11,40 +11,31 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ModifcacionesComponent {
   curso: listacurso = new listacurso(0, '', 0, nivel.alto);
-
   cursos: listacurso[] = [];
-
   ids: number = 0;
 
   constructor(
     private serviciocursos: ServiciocursosService,
-
     private activarrutas: ActivatedRoute,
-
     private rutes: Router
   ) {
     this.cursos = this.serviciocursos.getcurso();
   }
 
-  ngOnInit() {
-    this.activarrutas.queryParams.subscribe(data => {
-      this.ids = data['ids'];
-      if(this.ids != 0)
-      this.curso = this.serviciocursos.getcursobyid(this.ids)!;
-  })
+  ngOnInit(): void {
+    this.activarrutas.params.subscribe((data) => {
+      this.ids = data['id'];
+      if (this.ids != 0)
+        this.curso = this.serviciocursos.getcursobyid(this.ids)!;
+    });
   }
-  modificar(): void {
+
+  anadir() {
     this.serviciocursos.modificarcurso(this.ids, this.curso);
     this.curso = new listacurso(0, '', 0, nivel.alto);
-    this.rutes.navigate(['']);
   }
-  anadir() {
-    this.curso.id = this.cursos[this.cursos.length - 1].id + 1;
+  alta() {
     this.serviciocursos.anadircurso(this.curso);
-
-    this.rutes.navigate(['']);
-  }
-  cancelar() {
-    this.rutes.navigate(['']);
+    this.curso = new listacurso(0, '', 0, nivel.alto);
   }
 }
